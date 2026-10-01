@@ -1,0 +1,26 @@
+# macOS
+.DS_Store
+
+# Node / Angular
+node_modules/
+dist/
+.angular/
+out-tsc/
+.npm/
+
+# Gradle
+**/.gradle/
+**/build/
+backend/.gradle/
+backend/build/
+
+# IDEs
+.idea/
+.vscode/
+*.iml
+
+# Logs and local environment
+*.log
+.env
+.env.*
+!.env.example
