@@ -1,35 +1,42 @@
-import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { MatCardModule } from '@angular/material/card';
+import { MatChipsModule } from '@angular/material/chips';
+import { MatTableModule } from '@angular/material/table';
 import { OrderService } from '../order.service';
 
 @Component({
   selector: 'app-order',
-  imports: [CommonModule],
+  imports: [CommonModule, MatCardModule, MatChipsModule, MatTableModule],
   templateUrl: './order.component.html',
   styles: [
     `
-      .order-box {
-        border: 1px solid #ccc;
-        padding: 16px;
-        margin: 16px;
-      }
       .status-pending {
-        color: orange;
+        --mdc-chip-elevated-container-color: #fff3e0;
+        color: #e65100;
       }
       .status-shipped {
-        color: green;
+        --mdc-chip-elevated-container-color: #e8f5e9;
+        color: #2e7d32;
       }
       .status-other {
-        color: gray;
+        --mdc-chip-elevated-container-color: #eeeeee;
+        color: #616161;
+      }
+      .totals p {
+        margin: 4px 0;
       }
     `,
   ],
 })
-export class OrderComponent implements OnInit {
+export class OrderComponent implements OnInit, OnChanges {
+  @Input() orderId = 1;
+
   order: any;
   subtotal: number = 0;
   tax: number = 0;
   total: number = 0;
+  displayedColumns = ['productName', 'quantity', 'unitPrice'];
 
   constructor(
     private orderService: OrderService,
@@ -37,7 +44,17 @@ export class OrderComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.orderService.getOrder(1).subscribe((data: any) => {
+    this.fetchOrder();
+  }
+
+  ngOnChanges(changes: SimpleChanges) {
+    if (changes['orderId'] && !changes['orderId'].firstChange) {
+      this.fetchOrder();
+    }
+  }
+
+  fetchOrder() {
+    this.orderService.getOrder(this.orderId).subscribe((data: any) => {
       console.log('order data', data);
       this.order = data;
 

@@ -19,6 +19,52 @@ public class OrderController {
 
     public static int requestCount = 0;
 
+    @GetMapping("")
+    public List<Map<String, Object>> getOrders() {
+        requestCount++;
+        List<Map<String, Object>> results = new java.util.ArrayList<>();
+
+        try {
+            ObjectMapper mapper = new ObjectMapper();
+            File file = new File("src/main/resources/data/orders.json");
+            List<Map<String, Object>> orders = mapper.readValue(file, List.class);
+
+            for (Map<String, Object> order : orders) {
+                List<Map<String, Object>> items = (List<Map<String, Object>>) order.get("items");
+                double subtotal = 0;
+                for (Map<String, Object> item : items) {
+                    double unitPrice = ((Number) item.get("unitPrice")).doubleValue();
+                    int quantity = ((Number) item.get("quantity")).intValue();
+                    subtotal = subtotal + (unitPrice * quantity);
+                }
+
+                double tax;
+                if (subtotal > 100) {
+                    tax = subtotal * 0.21;
+                } else {
+                    tax = subtotal * 0.10;
+                }
+
+                double discount = 0;
+                if (subtotal > 200) {
+                    discount = subtotal * 0.05;
+                }
+
+                double total = subtotal + tax - discount;
+
+                Map<String, Object> summary = new HashMap<>();
+                summary.put("id", order.get("id"));
+                summary.put("customerName", order.get("customerName"));
+                summary.put("status", order.get("status"));
+                summary.put("total", total);
+                results.add(summary);
+            }
+        } catch (Exception e) {
+        }
+
+        return results;
+    }
+
     @GetMapping("/{id}")
     public Map<String, Object> getOrder(@PathVariable int id) {
         requestCount++;

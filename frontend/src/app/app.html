@@ -1,6 +1,6 @@
 <main>
-  <h1>Hello, {{ title() }}</h1>
-  <app-order></app-order>
+  <app-orders-list (orderSelected)="onOrderSelected($event)"></app-orders-list>
+  <app-order [orderId]="selectedOrderId"></app-order>
 </main>
 
 <router-outlet />
