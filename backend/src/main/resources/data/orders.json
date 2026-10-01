@@ -1,0 +1,41 @@
+[
+    {
+        "id": 1,
+        "customerName": "John Doe",
+        "status": "PENDING",
+        "items": [
+            {
+                "productName": "Mechanical Keyboard",
+                "quantity": 2,
+                "unitPrice": 49.99
+            },
+            {
+                "productName": "Wireless Mouse",
+                "quantity": 1,
+                "unitPrice": 25.5
+            },
+            {
+                "productName": "USB-C Hub",
+                "quantity": 3,
+                "unitPrice": 19.75
+            }
+        ]
+    },
+    {
+        "id": 2,
+        "customerName": "Jane Smith",
+        "status": "SHIPPED",
+        "items": [
+            {
+                "productName": "Monitor 27 inch",
+                "quantity": 1,
+                "unitPrice": 219.0
+            },
+            {
+                "productName": "HDMI Cable",
+                "quantity": 2,
+                "unitPrice": 8.99
+            }
+        ]
+    }
+]
