@@ -1,0 +1,40 @@
+<mat-card class="order-box" *ngIf="order">
+  <mat-card-header>
+    <mat-card-title>Order #{{ order.id }}</mat-card-title>
+    <mat-card-subtitle>{{ order.customerName }}</mat-card-subtitle>
+  </mat-card-header>
+
+  <mat-card-content>
+    <mat-chip-set>
+      <mat-chip [ngClass]="getStatusClass()">{{ order.status }}</mat-chip>
+    </mat-chip-set>
+
+    <table mat-table [dataSource]="order.items" class="mat-elevation-z1">
+      <ng-container matColumnDef="productName">
+        <th mat-header-cell *matHeaderCellDef>Product</th>
+        <td mat-cell *matCellDef="let item">{{ item.productName }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="quantity">
+        <th mat-header-cell *matHeaderCellDef>Qty</th>
+        <td mat-cell *matCellDef="let item">{{ item.quantity }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="unitPrice">
+        <th mat-header-cell *matHeaderCellDef>Unit price</th>
+        <td mat-cell *matCellDef="let item">{{ item.unitPrice | number: '1.2-2' }}</td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+    </table>
+
+    <div class="totals">
+      <p>Subtotal: {{ subtotal | number: '1.2-2' }}</p>
+      <p>Tax: {{ tax | number: '1.2-2' }}</p>
+      <p>
+        <strong>Total: {{ total | number: '1.2-2' }}</strong>
+      </p>
+    </div>
+  </mat-card-content>
+</mat-card>
